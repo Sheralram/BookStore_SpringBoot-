@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
@@ -29,6 +30,7 @@ public class UserController {
 
     @PostMapping(value = {"/register"})
     public User registerUser(@RequestBody UserDto userDTO) {
+
         return userService.registerUser(userDTO);
     }
 

@@ -34,8 +34,9 @@ public class CartService {
 
 
     public Object addToCart(CartDto cartDTO) {
+        System.out.println(cartDTO);
         Optional<User> userData = userRepository.findById(cartDTO.getUser_Id());
-        Optional<BookEntity> bookData = Optional.ofNullable(bookService.getById(cartDTO.getBookId()));
+        Optional<BookEntity> bookData = bookRepository.findById(cartDTO.getBookId());
         if (userData.isPresent() && bookData.isPresent()) {
             if(bookData.get().getQuantity() >= cartDTO.getQuantity() && cartDTO.getQuantity() > 0 )
             {
@@ -93,7 +94,7 @@ public class CartService {
     }
 
 
-
-
-
+    public List<Cart> listofCarts() {
+        return cartRepository.findAll();
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cart")
+@CrossOrigin("*")
 public class CartController {
     @Autowired
     CartService cartService;
@@ -20,10 +21,16 @@ public class CartController {
         return new ResponseEntity<ResponseDto>(responseDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping("/get")
-    public ResponseEntity<ResponseDto> getAll(@RequestParam long user_Id){
+    @GetMapping("/get/{user_Id}")
+    public ResponseEntity<ResponseDto> getAll(@PathVariable long user_Id){
         ResponseDto respnseDTO = new ResponseDto("Here are all the Cart Items.." , cartService.getCartItems(user_Id));
         return new ResponseEntity<ResponseDto>(respnseDTO,HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<ResponseDto> getAllCarts(){
+        ResponseDto responseDto = new ResponseDto("List of Cards:", cartService.listofCarts());
+        return new ResponseEntity<ResponseDto>(responseDto,HttpStatus.OK);
     }
 
     @PutMapping("/update/{cartId}/{quantity}/{totalPrice}")

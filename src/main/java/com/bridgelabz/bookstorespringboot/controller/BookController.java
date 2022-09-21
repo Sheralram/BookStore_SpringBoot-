@@ -9,8 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/book")
+@CrossOrigin("*")
 public class BookController {
     @Autowired
     BookService bookService;
@@ -48,5 +51,23 @@ public class BookController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/fetch-details")
+    public ResponseEntity<ResponseDto> saveBookDataFromCSV() {
+        return new ResponseEntity<ResponseDto>(bookService.saveBookData(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getBookByAscendingPrice")
+    public ResponseEntity<ResponseDto> getBookByAscendingPrice() {
+        List<BookEntity> bookList = bookService.getBookByAscendingPrice();
+        ResponseDto respDTO = new ResponseDto("Books in ascending order...", bookList);
+        return new ResponseEntity<>(respDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/getBookByDescendingPrice")
+    public ResponseEntity<ResponseDto> getBookByDescendingPrice() {
+        List<BookEntity> bookList = bookService.getBookByDescendingPrice();
+        ResponseDto respDTO = new ResponseDto("Books in descending order...", bookList);
+        return new ResponseEntity<>(respDTO, HttpStatus.OK);
+    }
 
 }

@@ -14,5 +14,6 @@ public class AddressDetailsDto {
     private String city;
     private String landmark;
     private int type;
+
 }
 

@@ -4,6 +4,7 @@ package com.bridgelabz.bookstorespringboot.model;
 
 import javax.persistence.*;
 
+import com.bridgelabz.bookstorespringboot.dto.AddressDetailsDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -35,16 +36,14 @@ public class AddressDetails {
     @JoinColumn(name="user")
     private User user;
 
-    public AddressDetails(String name, String pincode, String locality, String address, String city,
-                          String landmark, int type, User user) {
-        super();
-        this.name = name;
-        this.pincode = pincode;
-        this.locality = locality;
-        this.address = address;
-        this.city = city;
-        this.landmark = landmark;
-        this.type = type;
+
+    public AddressDetails(AddressDetailsDto detailsDto , User user) {
+        this.name = detailsDto.getName();
+        this.pincode = detailsDto.getPincode();
+        this.locality = detailsDto.getLocality();
+        this.address = detailsDto.getAddress();
+        this.city = detailsDto.getCity();
+        this.landmark = detailsDto.getLandmark();
         this.user = user;
     }
 }

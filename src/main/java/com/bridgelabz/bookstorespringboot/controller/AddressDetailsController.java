@@ -23,5 +23,12 @@ public class AddressDetailsController {
         return new ResponseEntity<ResponseDto>(responseDto, HttpStatus.OK);
     }
 
+//    @GetMapping("/type/")
+//    public ResponseEntity<ResponseDto> getTypeByHome(@PathVariable String type) {
+//        ResponseDto responseDto = new ResponseDto("Type Home is found", service.getByType(type));
+//        return new ResponseEntity<ResponseDto>(responseDto, HttpStatus.OK);
+//    }
+
+
 
 }

@@ -1,6 +1,7 @@
 package com.bridgelabz.bookstorespringboot.service;
 
 import com.bridgelabz.bookstorespringboot.dto.AddressDetailsDto;
+import com.bridgelabz.bookstorespringboot.exception.CustomException;
 import com.bridgelabz.bookstorespringboot.model.AddressDetails;
 import com.bridgelabz.bookstorespringboot.model.User;
 import com.bridgelabz.bookstorespringboot.repository.AddressDetailsRepository;
@@ -19,28 +20,13 @@ public class AddressDetailsService {
     @Autowired
     UserRepository userRepo;
 
-    public String add(AddressDetailsDto detailsDto) {
+    public AddressDetails add(AddressDetailsDto detailsDto) {
         Optional<User> user = userRepo.findById(detailsDto.getUserId());
-        AddressDetails addressDetails = detailsRepository.findByUserAndType(user, detailsDto.getType());
-        if (user != null) {
-            if (addressDetails == null) {
-                addressDetails = new AddressDetails(detailsDto.getName(), detailsDto.getPincode(),
-                        detailsDto.getLocality(), detailsDto.getAddress(), detailsDto.getCity(),
-                        detailsDto.getLandmark(), detailsDto.getType(), user.get());
-                detailsRepository.save(addressDetails);
-            }else {
-                addressDetails.setName(detailsDto.getName());
-                addressDetails.setPincode(detailsDto.getPincode());
-                addressDetails.setLocality(detailsDto.getLocality());
-                addressDetails.setAddress(detailsDto.getAddress());
-                addressDetails.setCity(detailsDto.getCity());
-                addressDetails.setLandmark(detailsDto.getLandmark());
-                detailsRepository.save(addressDetails);
-            }
-
-            return "updated";
+        if (user.isPresent()) {
+            AddressDetails addressDetails = new AddressDetails(detailsDto, user.get());
+            return detailsRepository.save(addressDetails);
         } else
-            return "user not found";
+            throw new CustomException("User Not Found");
     }
 
 
